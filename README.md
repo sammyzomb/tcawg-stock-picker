@@ -1,6 +1,6 @@
 # tcawg-stock-picker
 
-跨專案共用的圖槽與影片槽工具：**內網 NAS**（`192.168.3.3`、`192.168.3.11`）+ 線上三大圖庫 **Shutterstock / Unsplash / Pexels**。
+跨專案共用的圖槽與影片槽工具：**內網 NAS**（`192.168.3.3`、`192.168.3.11`）+ 線上圖庫 **Shutterstock / Unsplash / Pixabay / Pexels**。
 
 - **NAS**：UNC 路徑複製／掃描（中文關鍵字友善）；見 `templates/nas-config.example.json`、`圖庫下載說明.md` 的「圖片來源總覽」
 - **線上 API**：依 `image-slots.json` 的 `query` / `altQueries` 搜圖、下載、授權紀錄
@@ -68,6 +68,17 @@ powershell -File D:/GITHUB_2/圖庫下載說明/scripts/setup-env.ps1 -ProjectRo
   "envFile": ".env"
 }
 ```
+
+## 網頁版搜圖器（本機 Web UI）
+
+```powershell
+cd D:/GITHUB_2/圖庫下載說明
+npm run web
+# 或
+node bin/stock-web.js --project "D:/GITHUB_2/你的專案"
+```
+
+瀏覽器開啟 http://127.0.0.1:3456 — 關鍵字搜圖、縮圖勾選、下載到 archive、可選複製到 slot；支援 NAS 檔名搜尋。詳見 `圖庫下載說明.md` 的「網頁版搜圖器」章節。
 
 ## 指令
 

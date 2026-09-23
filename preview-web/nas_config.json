@@ -1,0 +1,26 @@
+{
+  "description": "內網 NAS 圖庫路徑（需可存取 192.168.3.x）",
+  "hosts": [
+    {
+      "id": "nas-primary",
+      "host": "192.168.3.3",
+      "label": "NAS 主機（行程總彙）",
+      "roots": [
+        "\\\\192.168.3.3\\【行程總彙】"
+      ]
+    },
+    {
+      "id": "nas-secondary",
+      "host": "192.168.3.11",
+      "label": "NAS 第二台（QNAP）",
+      "roots": [
+        "\\\\192.168.3.11\\public"
+      ]
+    }
+  ],
+  "commonSubdirs": [
+    "@照片圖庫",
+    "@領隊",
+    "@影片"
+  ]
+}

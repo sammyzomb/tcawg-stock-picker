@@ -12,7 +12,11 @@
     "stock-check-keys": "bin/stock-check-keys.js",
     "stock-check-quota": "bin/stock-check-quota.js",
     "stock-sstk-search": "bin/stock-sstk-search.js",
-    "stock-sstk-license": "bin/stock-sstk-license.js"
+    "stock-sstk-license": "bin/stock-sstk-license.js",
+    "stock-web": "bin/stock-web.js"
+  },
+  "scripts": {
+    "web": "node bin/stock-web.js"
   },
   "engines": {
     "node": ">=18"
@@ -20,6 +24,9 @@
   "files": [
     "bin",
     "lib",
+    "server",
+    "web",
+    "preview-web",
     "templates",
     "scripts"
   ]

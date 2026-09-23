@@ -1,0 +1,25 @@
+{
+  "project": "WEB-PREVIEW",
+  "description": "網頁版搜圖器預覽用圖槽（可改為實際官網專案）",
+  "targetRoot": "images/WEB-PREVIEW-shutter",
+  "providerPriority": ["unsplash", "pixabay", "pexels", "shutterstock"],
+  "videoProviderPriority": ["pixabay", "pexels", "shutterstock"],
+  "shutterstockSort": "popular",
+  "shutterstockRegion": "TW",
+  "slots": [
+    {
+      "id": "hero",
+      "type": "image",
+      "file": "hero.jpg",
+      "query": "Peru Inti Raymi festival Cusco",
+      "altQueries": ["祕魯 太陽祭", "Cusco Plaza de Armas celebration", "Andean festival Peru"]
+    },
+    {
+      "id": "about",
+      "type": "image",
+      "file": "about.jpg",
+      "query": "professional team office",
+      "altQueries": ["travel agency team", "旅行社 團隊"]
+    }
+  ]
+}

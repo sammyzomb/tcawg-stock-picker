@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>圖庫搜尋器 · tcawg-stock-picker</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <h1>圖庫搜尋器</h1>
+        <p>公司官網素材選圖 · NAS + 免費圖庫 + Shutterstock</p>
+      </div>
+      <div class="status-panel" id="statusPanel">載入中…</div>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <section class="panel">
+          <h2>專案</h2>
+          <label class="field">
+            <span>專案根目錄</span>
+            <input id="projectPath" type="text" placeholder="D:/GITHUB_2/你的專案" />
+          </label>
+          <button id="applyProjectBtn" type="button" class="btn secondary">切換專案</button>
+          <p class="hint" id="projectHint"></p>
+        </section>
+
+        <section class="panel">
+          <h2>搜尋</h2>
+          <label class="field">
+            <span>圖槽（製作網頁）</span>
+            <select id="searchSlotSelect">
+              <option value="">手動輸入關鍵字</option>
+            </select>
+          </label>
+          <p class="hint" id="slotQueryHint">選圖槽後會使用 image-slots.json 的 query + altQueries（與 CLI --slot 相同）。</p>
+          <div id="altQueryChips" class="chips"></div>
+
+          <label class="field">
+            <span>關鍵字（中英文皆可）</span>
+            <input id="queryInput" type="search" placeholder="加拉巴哥 海洋 / Galapagos ocean" />
+          </label>
+
+          <label class="field">
+            <span>媒體類型</span>
+            <select id="mediaType">
+              <option value="image">圖片</option>
+              <option value="video">影片</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>來源</span>
+            <select id="sourceMode">
+              <option value="free">僅免費（Unsplash / Pixabay / Pexels）</option>
+              <option value="all">全部（含 Shutterstock）</option>
+              <option value="pixabay">僅 Pixabay（中文友善）</option>
+              <option value="unsplash">僅 Unsplash</option>
+              <option value="pexels">僅 Pexels</option>
+              <option value="shutterstock">僅 Shutterstock</option>
+            </select>
+          </label>
+
+          <label class="check">
+            <input id="includeNas" type="checkbox" checked />
+            同時搜 NAS 內網圖庫
+          </label>
+          <label class="check">
+            <input id="includeDownloaded" type="checkbox" />
+            顯示已下載過的結果
+          </label>
+
+          <label class="field">
+            <span>下載後複製到 slot（可選）</span>
+            <select id="slotSelect">
+              <option value="">不下載到 slot，只存 archive</option>
+            </select>
+          </label>
+
+          <button id="searchBtn" type="button" class="btn primary">搜尋</button>
+        </section>
+
+        <section class="panel">
+          <h2>下載</h2>
+          <p class="hint">勾選縮圖後按「下載選取」。Shutterstock 會扣訂閱張數。</p>
+          <label class="check danger">
+            <input id="confirmLicense" type="checkbox" />
+            我確認 Shutterstock 下載會扣張數
+          </label>
+          <button id="downloadBtn" type="button" class="btn primary" disabled>下載選取（0）</button>
+          <button id="copyNasBtn" type="button" class="btn secondary" disabled>複製 NAS 選取</button>
+        </section>
+      </aside>
+
+      <section class="content">
+        <div class="toolbar">
+          <div id="resultSummary">輸入關鍵字開始搜尋</div>
+          <button id="selectAllBtn" type="button" class="btn ghost" disabled>全選</button>
+          <button id="clearAllBtn" type="button" class="btn ghost" disabled>清除</button>
+        </div>
+        <div id="message" class="message hidden"></div>
+        <div id="results" class="grid"></div>
+      </section>
+    </main>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

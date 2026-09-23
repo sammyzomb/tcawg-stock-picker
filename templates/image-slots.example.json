@@ -2,8 +2,8 @@
   "project": "MY-TOUR",
   "description": "行程特色圖槽／影片槽與英文搜尋關鍵字",
   "targetRoot": "images/MY-TOUR-shutter",
-  "providerPriority": ["shutterstock", "unsplash", "pexels"],
-  "videoProviderPriority": ["shutterstock", "pexels"],
+  "providerPriority": ["shutterstock", "unsplash", "pixabay", "pexels"],
+  "videoProviderPriority": ["shutterstock", "pixabay", "pexels"],
   "shutterstockSort": "popular",
   "shutterstockRegion": "TW",
   "slots": [
@@ -11,7 +11,8 @@
       "id": "hero",
       "type": "image",
       "file": "hero.jpg",
-      "query": "Galapagos marine iguana ocean landscape"
+      "query": "Galapagos marine iguana ocean landscape",
+      "altQueries": ["加拉巴哥 海洋", "Galapagos islands aerial"]
     },
     {
       "id": "hero-loop",

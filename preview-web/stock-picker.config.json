@@ -1,0 +1,6 @@
+{
+  "slotsFile": "scripts/image-slots.json",
+  "archiveDir": "public/images",
+  "videoArchiveDir": "public/videos",
+  "envFile": "../.preview/stock-api.env"
+}
