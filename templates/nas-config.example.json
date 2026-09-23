@@ -12,11 +12,10 @@
     {
       "id": "nas-secondary",
       "host": "192.168.3.11",
-      "label": "NAS 備援／第二台",
+      "label": "NAS 第二台（QNAP，共用 public）",
       "roots": [
-        "\\\\192.168.3.11\\【行程總彙】"
-      ],
-      "note": "若共用資料夾名稱不同，請改 roots 為實際 UNC 路徑"
+        "\\\\192.168.3.11\\public"
+      ]
     }
   ],
   "commonSubdirs": [
