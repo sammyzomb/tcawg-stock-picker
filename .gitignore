@@ -1,0 +1,7 @@
+node_modules/
+.env
+.preview/stock-api.env
+.preview/free-stock.env
+.preview/shutterstock.env
+*.log
+.DS_Store

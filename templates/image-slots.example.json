@@ -1,0 +1,31 @@
+{
+  "project": "MY-TOUR",
+  "description": "行程特色圖槽／影片槽與英文搜尋關鍵字",
+  "targetRoot": "images/MY-TOUR-shutter",
+  "providerPriority": ["shutterstock", "unsplash", "pexels"],
+  "videoProviderPriority": ["shutterstock", "pexels"],
+  "shutterstockSort": "popular",
+  "shutterstockRegion": "TW",
+  "slots": [
+    {
+      "id": "hero",
+      "type": "image",
+      "file": "hero.jpg",
+      "query": "Galapagos marine iguana ocean landscape"
+    },
+    {
+      "id": "hero-loop",
+      "type": "video",
+      "file": "hero-loop.mp4",
+      "query": "Galapagos ocean waves aerial drone",
+      "altQueries": ["tropical sea coastline drone", "Pacific ocean sunset waves"]
+    },
+    {
+      "id": "spot-example",
+      "type": "image",
+      "file": "spots/example.jpg",
+      "query": "Quito Ecuador colonial old town",
+      "altQueries": ["Quito historic center", "colonial architecture Ecuador"]
+    }
+  ]
+}

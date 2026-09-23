@@ -1,0 +1,26 @@
+{
+  "name": "tcawg-stock-picker",
+  "version": "1.0.0",
+  "description": "Shutterstock / Unsplash / Pexels 圖槽自動搜圖、下載、授權紀錄（可跨專案使用）",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "lib/index.js",
+  "bin": {
+    "stock-find": "bin/stock-find.js",
+    "stock-fill": "bin/stock-fill.js",
+    "stock-sync": "bin/stock-sync.js",
+    "stock-check-keys": "bin/stock-check-keys.js",
+    "stock-check-quota": "bin/stock-check-quota.js",
+    "stock-sstk-search": "bin/stock-sstk-search.js",
+    "stock-sstk-license": "bin/stock-sstk-license.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "templates",
+    "scripts"
+  ]
+}

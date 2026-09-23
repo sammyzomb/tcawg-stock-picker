@@ -1,0 +1,43 @@
+---
+description: 圖庫 API 搜圖下載 — 指向共用 tcawg-stock-picker 與參考專案
+globs: scripts/find-images.js,scripts/fill-slots.js,scripts/sync-slot-images.js,scripts/image-slots.json,public/images/**/*,images/**/*,貼官網用/**/*.html
+alwaysApply: false
+---
+
+# 圖庫下載（本專案設定）
+
+## 共用套件（勿複製進本 repo）
+
+- **stock-picker 根目錄**：`D:/GITHUB_2/圖庫下載說明`
+- **npm 依賴**：`scripts/package.json` → `"tcawg-stock-picker": "file:../../圖庫下載說明"`
+- **說明文件**：`D:/GITHUB_2/圖庫下載說明/README.md`
+
+## 參考專案（已跑通，只複製薄包裝）
+
+- **參考路徑**：`D:/GITHUB_2/UIO16A 加拉巴哥群島 厄瓜多 哥倫比亞雙城 咖啡風情 16日`
+- 可複製：`scripts/find-images.js`、`fill-slots.js`、`sync-slot-images.js`、`setup-env.ps1`、`lib/stock-picker-path.cjs`
+- **不可**直接複製參考專案的 `image-slots.json` 或 `images/UIO16A-shutter/` 內容
+
+## 本專案專用（請依行程修改）
+
+- **專案代號**：【專案代號】
+- **設定檔**：根目錄 `stock-picker.config.json`
+- **圖槽清單**：`scripts/image-slots.json`（`targetRoot`: `images/【專案代號】-shutter`）
+- **API 金鑰**：根目錄 `.env`（`powershell -File scripts/setup-env.ps1`）
+
+## 常用指令（在專案根目錄）
+
+```bash
+node scripts/find-images.js --check-keys
+node scripts/find-images.js --slot hero
+node scripts/fill-slots.js --all --free-only
+node scripts/fill-slots.js --all --confirm-license
+node scripts/sync-slot-images.js --verify-only
+```
+
+## AI 接新專案時
+
+1. 先讀 `D:/GITHUB_2/圖庫下載說明/圖庫下載說明.md`（或 `templates/新專案接入說明.md`）
+2. 實作在 `D:/GITHUB_2/圖庫下載說明`（npm 名 `tcawg-stock-picker`）；本 repo 只保留設定與薄包裝
+3. 互動搜圖：**先預覽 → 使用者選編號 → 才下載**
+4. Shutterstock 授權需 token + subscription；`--confirm-license` 會扣張數

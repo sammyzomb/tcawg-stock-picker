@@ -1,0 +1,7 @@
+{
+  "slotsFile": "scripts/image-slots.json",
+  "archiveDir": "public/images",
+  "envFile": ".env",
+  "licenseMarkdown": "images/MY-TOUR-shutter/圖片授權說明.md",
+  "creditsManifest": "images/MY-TOUR-shutter/shutter-credits.json"
+}
