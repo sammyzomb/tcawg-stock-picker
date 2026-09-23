@@ -1,6 +1,9 @@
 # tcawg-stock-picker
 
-跨專案共用的 **Shutterstock / Unsplash / Pexels** 圖槽與影片槽自動搜尋、下載、授權紀錄工具。依 `image-slots.json` 的英文關鍵字（`query` / `altQueries`）找圖或找片。
+跨專案共用的圖槽與影片槽工具：**內網 NAS**（`192.168.3.3`、`192.168.3.11`）+ 線上三大圖庫 **Shutterstock / Unsplash / Pexels**。
+
+- **NAS**：UNC 路徑複製／掃描（中文關鍵字友善）；見 `templates/nas-config.example.json`、`圖庫下載說明.md` 的「圖片來源總覽」
+- **線上 API**：依 `image-slots.json` 的 `query` / `altQueries` 搜圖、下載、授權紀錄
 
 本 repo 為**獨立套件**（資料夾名 `圖庫下載說明`，npm 套件名 `tcawg-stock-picker`），行程專案（如 UIO16A、CAI12A）以 npm `file:` 或 `npm link` 引用，不再把整包複製進各專案。
 
