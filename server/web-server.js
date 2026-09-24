@@ -12,6 +12,7 @@ const {
   getSlotSearchPlan,
   downloadStockItems,
 } = require("../lib/search-service");
+const { resolveSearchQueries } = require("../lib/query-translate");
 const {
   searchNas,
   resolveNasPreviewPath,
@@ -135,6 +136,13 @@ function createWebServer(options = {}) {
         return sendJson(res, 200, listSlots(ctx));
       }
 
+      if (url.pathname === "/api/translate" && req.method === "GET") {
+        const q = (url.searchParams.get("q") || "").trim();
+        const queryEn = (url.searchParams.get("queryEn") || "").trim();
+        const payload = await resolveSearchQueries(q, queryEn);
+        return sendJson(res, 200, payload);
+      }
+
       if (url.pathname === "/api/search" && req.method === "GET") {
         const slotId = (url.searchParams.get("slotId") || "").trim();
         const searchOptions = {
@@ -142,6 +150,8 @@ function createWebServer(options = {}) {
           providers: url.searchParams.get("providers") || "all",
           freeOnly: url.searchParams.get("freeOnly") === "1",
           includeDownloaded: url.searchParams.get("includeDownloaded") === "1",
+          precise: url.searchParams.get("precise") === "1",
+          queryEn: (url.searchParams.get("queryEn") || "").trim(),
         };
         const payload = slotId
           ? await searchStockBySlot(ctx, slotId, searchOptions)
@@ -158,10 +168,12 @@ function createWebServer(options = {}) {
         const nasOptions = {
           timeoutMs: timeoutParam > 0 ? timeoutParam : DEFAULT_TIMEOUT_MS,
         };
+        const precise = url.searchParams.get("precise") === "1";
         if (slotId) {
           const plan = getSlotSearchPlan(ctx, slotId);
+          const queries = precise ? [plan.queries[0]].filter(Boolean) : plan.queries;
           Object.assign(nasOptions, {
-            queries: plan.queries,
+            queries,
             mediaType: plan.mediaType,
             matchMode: "phrase",
           });

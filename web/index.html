@@ -40,8 +40,14 @@
 
           <label class="field">
             <span>關鍵字（中英文皆可）</span>
-            <input id="queryInput" type="search" placeholder="加拉巴哥 海洋 / Galapagos ocean" />
+            <input id="queryInput" type="search" placeholder="祕魯太陽祭（中文即可）" />
           </label>
+
+          <label class="field">
+            <span>英文搜尋詞（SS / Unsplash / Pexels，可改）</span>
+            <input id="queryEnInput" type="search" placeholder="自動建議，例如 Sacsayhuaman Cusco" />
+          </label>
+          <p class="hint">官網搜「祕魯太陽祭」會改為 peru sun festival；本工具會用中文直搜 SS，並搭配 API 可用的英文變體。</p>
 
           <label class="field">
             <span>媒體類型</span>
@@ -54,8 +60,8 @@
           <label class="field">
             <span>來源</span>
             <select id="sourceMode">
+              <option value="all" selected>全部（含 Shutterstock）</option>
               <option value="free">僅免費（Unsplash / Pixabay / Pexels）</option>
-              <option value="all">全部（含 Shutterstock）</option>
               <option value="pixabay">僅 Pixabay（中文友善）</option>
               <option value="unsplash">僅 Unsplash</option>
               <option value="pexels">僅 Pexels</option>
@@ -64,7 +70,11 @@
           </label>
 
           <label class="check">
-            <input id="includeNas" type="checkbox" checked />
+            <input id="preciseMode" type="checkbox" checked />
+            精準搜尋（主關鍵字；SS+Pixabay 或 SS+Unsplash，最多 8 張）
+          </label>
+          <label class="check">
+            <input id="includeNas" type="checkbox" />
             同時搜 NAS 內網圖庫
           </label>
           <label class="check">

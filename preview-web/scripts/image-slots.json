@@ -11,8 +11,9 @@
       "id": "hero",
       "type": "image",
       "file": "hero.jpg",
-      "query": "Peru Inti Raymi festival Cusco",
-      "altQueries": ["祕魯 太陽祭", "Cusco Plaza de Armas celebration", "Andean festival Peru"]
+      "query": "祕魯 太陽祭 庫斯科",
+      "queryEn": "Sacsayhuaman Cusco",
+      "altQueries": ["印加 太陽祭", "馬丘比丘 祕魯"]
     },
     {
       "id": "about",

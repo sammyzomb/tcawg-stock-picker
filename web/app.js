@@ -20,8 +20,10 @@ const els = {
   slotQueryHint: document.getElementById("slotQueryHint"),
   altQueryChips: document.getElementById("altQueryChips"),
   queryInput: document.getElementById("queryInput"),
+  queryEnInput: document.getElementById("queryEnInput"),
   mediaType: document.getElementById("mediaType"),
   sourceMode: document.getElementById("sourceMode"),
+  preciseMode: document.getElementById("preciseMode"),
   includeNas: document.getElementById("includeNas"),
   includeDownloaded: document.getElementById("includeDownloaded"),
   slotSelect: document.getElementById("slotSelect"),
@@ -153,6 +155,7 @@ function applySearchSlot(slotId) {
 
   state.slotQueries = [slot.query, ...(slot.altQueries || [])].filter(Boolean);
   els.queryInput.value = slot.query || "";
+  els.queryEnInput.value = slot.queryEn || "";
   els.mediaType.value = slot.type || "image";
   els.slotSelect.value = slot.id;
   els.slotQueryHint.textContent = `圖槽 ${slot.id}：依序搜尋 ${state.slotQueries.length} 組關鍵字（主 query + altQueries）。下載後可複製到 ${slot.file}`;
@@ -292,8 +295,13 @@ function buildSearchParams() {
   const params = new URLSearchParams({
     mediaType: state.mediaType,
     includeDownloaded: els.includeDownloaded.checked ? "1" : "0",
+    precise: els.preciseMode.checked ? "1" : "0",
     ...providerParams(),
   });
+  const queryEn = els.queryEnInput.value.trim();
+  if (queryEn) {
+    params.set("queryEn", queryEn);
+  }
   if (state.activeSlotId) {
     params.set("slotId", state.activeSlotId);
   } else {
@@ -302,8 +310,27 @@ function buildSearchParams() {
   return params;
 }
 
+async function suggestEnglishQuery() {
+  const q = els.queryInput.value.trim();
+  if (!q || state.activeSlotId) {
+    return;
+  }
+  try {
+    const payload = await api(`/api/translate?q=${encodeURIComponent(q)}`);
+    if (!els.queryEnInput.value.trim() || els.queryEnInput.dataset.auto === "1") {
+      els.queryEnInput.value = payload.english || "";
+      els.queryEnInput.dataset.auto = "1";
+    }
+  } catch {
+    // ignore translation failures; user can type English manually
+  }
+}
+
 function buildNasParams() {
-  const params = new URLSearchParams({ timeout: "30000" });
+  const params = new URLSearchParams({
+    timeout: "30000",
+    precise: els.preciseMode.checked ? "1" : "0",
+  });
   if (state.activeSlotId) {
     params.set("slotId", state.activeSlotId);
   } else {
@@ -401,8 +428,24 @@ async function runSearch() {
     updateResultSummary(queryLabel);
 
     const errors = (stock.errors || []).map((row) => `${row.provider}: ${row.message}`).join("；");
+    const notes = [];
     if (errors) {
-      showMessage(`部分線上來源搜尋失敗：${errors}`);
+      notes.push(`部分線上來源搜尋失敗：${errors}`);
+    }
+    if (stock.translated && stock.queryEnglish) {
+      const variants = (stock.englishVariants || []).slice(0, 3).join(" · ");
+      notes.push(
+        `英文搜圖：${stock.queryEnglish}${variants ? `（變體：${variants}）` : ""}`
+      );
+    }
+    if (
+      (stock.providers || []).includes("shutterstock") &&
+      !(stock.results || []).some((item) => item.provider === "shutterstock")
+    ) {
+      notes.push("Shutterstock 這組關鍵字仍無結果，可改試其他中文關鍵字或來源選「僅 Shutterstock」。");
+    }
+    if (notes.length > 0) {
+      showMessage(notes.join(" "));
     }
     if (state.activeSlotId && stock.queries?.length > 1 && !errors) {
       showMessage(`已用 ${stock.queries.length} 組關鍵字搜尋（${stock.queries.join(" → ")}）`, "success");
@@ -497,6 +540,10 @@ els.queryInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     runSearch();
   }
+});
+els.queryInput.addEventListener("blur", suggestEnglishQuery);
+els.queryEnInput.addEventListener("input", () => {
+  els.queryEnInput.dataset.auto = "0";
 });
 els.selectAllBtn.addEventListener("click", () => {
   for (const item of state.results) {
