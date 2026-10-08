@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+require("../lib/runtime-compat");
 const path = require("path");
 const { startWebServer } = require("../server/web-server");
 

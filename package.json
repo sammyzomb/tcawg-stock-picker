@@ -16,6 +16,7 @@
     "stock-web": "bin/stock-web.js"
   },
   "scripts": {
+    "test": "node --test",
     "web": "node bin/stock-web.js"
   },
   "engines": {
@@ -29,5 +30,8 @@
     "preview-web",
     "templates",
     "scripts"
-  ]
+  ],
+  "dependencies": {
+    "node-fetch": "2.7.0"
+  }
 }

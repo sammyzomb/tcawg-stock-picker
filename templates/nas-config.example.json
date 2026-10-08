@@ -1,5 +1,9 @@
 {
-  "description": "內網 NAS 圖庫路徑（非 API；需可存取 192.168.3.x）。複製到專案並改名為 nas_config.json。",
+  "description": "預設使用 nas-search 全檔案索引。複製到專案並改名為 nas_config.json。移除 searchService 才會使用舊式資料夾掃描。",
+  "searchService": {
+    "url": "http://192.168.3.2:8088",
+    "timeoutMs": 30000
+  },
   "hosts": [
     {
       "id": "nas-primary",

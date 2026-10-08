@@ -1,5 +1,9 @@
 {
   "description": "內網 NAS 圖庫路徑（需可存取 192.168.3.x）",
+  "searchService": {
+    "url": "http://192.168.3.2:8088",
+    "timeoutMs": 30000
+  },
   "hosts": [
     {
       "id": "nas-primary",

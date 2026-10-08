@@ -4,50 +4,33 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>圖庫搜尋器 · tcawg-stock-picker</title>
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/style.css?v=country-search-1" />
   </head>
   <body>
     <header class="topbar">
       <div class="brand">
         <h1>圖庫搜尋器</h1>
-        <p>公司官網素材選圖 · NAS + 免費圖庫 + Shutterstock</p>
+        <p>搜尋 NAS、免費圖庫與 Shutterstock 素材</p>
       </div>
-      <div class="status-panel" id="statusPanel">載入中…</div>
+      <div class="quota-panel">
+        <div class="status-panel" id="statusPanel" aria-live="polite">載入中…</div>
+        <div class="quota-footer"><span id="quotaUpdated"></span><button type="button" id="refreshQuotaBtn">更新額度</button></div>
+      </div>
     </header>
 
     <main class="layout">
       <aside class="sidebar">
         <section class="panel">
-          <h2>專案</h2>
-          <label class="field">
-            <span>專案根目錄</span>
-            <input id="projectPath" type="text" placeholder="D:/GITHUB_2/你的專案" />
-          </label>
-          <button id="applyProjectBtn" type="button" class="btn secondary">切換專案</button>
-          <p class="hint" id="projectHint"></p>
-        </section>
-
-        <section class="panel">
           <h2>搜尋</h2>
           <label class="field">
-            <span>圖槽（製作網頁）</span>
-            <select id="searchSlotSelect">
-              <option value="">手動輸入關鍵字</option>
-            </select>
-          </label>
-          <p class="hint" id="slotQueryHint">選圖槽後會使用 image-slots.json 的 query + altQueries（與 CLI --slot 相同）。</p>
-          <div id="altQueryChips" class="chips"></div>
-
-          <label class="field">
             <span>關鍵字（中英文皆可）</span>
-            <input id="queryInput" type="search" placeholder="祕魯太陽祭（中文即可）" />
+            <input id="queryInput" type="search" placeholder="輸入地名或主題，例如洛明思科婭莊園" />
           </label>
 
-          <label class="field">
-            <span>英文搜尋詞（SS / Unsplash / Pexels，可改）</span>
-            <input id="queryEnInput" type="search" placeholder="自動建議，例如 Sacsayhuaman Cusco" />
+          <label class="field hidden" id="queryEnWrap">
+            <span>英文搜尋詞（自動帶入，可修改）</span>
+            <input id="queryEnInput" type="text" placeholder="輸入中文後自動帶入英文" />
           </label>
-          <p class="hint">官網搜「祕魯太陽祭」會改為 peru sun festival；本工具會用中文直搜 SS，並搭配 API 可用的英文變體。</p>
 
           <label class="field">
             <span>媒體類型</span>
@@ -60,8 +43,10 @@
           <label class="field">
             <span>來源</span>
             <select id="sourceMode">
-              <option value="all" selected>全部（含 Shutterstock）</option>
-              <option value="free">僅免費（Unsplash / Pixabay / Pexels）</option>
+              <option value="all" selected>全部線上圖庫</option>
+              <option value="nas">NAS 內網圖庫</option>
+              <option value="free">僅免費圖庫</option>
+              <option value="commons">僅 Wikimedia Commons</option>
               <option value="pixabay">僅 Pixabay（中文友善）</option>
               <option value="unsplash">僅 Unsplash</option>
               <option value="pexels">僅 Pexels</option>
@@ -69,52 +54,75 @@
             </select>
           </label>
 
-          <label class="check">
-            <input id="preciseMode" type="checkbox" checked />
-            精準搜尋（主關鍵字；SS+Pixabay 或 SS+Unsplash，最多 8 張）
-          </label>
-          <label class="check">
+          <label class="check" id="includeNasWrap">
             <input id="includeNas" type="checkbox" />
-            同時搜 NAS 內網圖庫
+            同時搜 NAS 圖庫
+          </label>
+          <button id="searchBtn" type="button" class="btn primary">搜尋</button>
+          <details class="search-options">
+            <summary>更多搜尋選項</summary>
+          <label class="check">
+            <input id="preciseMode" type="checkbox" />
+            只顯示匹配關鍵字的結果
           </label>
           <label class="check">
             <input id="includeDownloaded" type="checkbox" />
             顯示已下載過的結果
           </label>
 
-          <label class="field">
-            <span>下載後複製到 slot（可選）</span>
-            <select id="slotSelect">
-              <option value="">不下載到 slot，只存 archive</option>
-            </select>
-          </label>
-
-          <button id="searchBtn" type="button" class="btn primary">搜尋</button>
+          </details>
         </section>
 
         <section class="panel">
           <h2>下載</h2>
-          <p class="hint">勾選縮圖後按「下載選取」。Shutterstock 會扣訂閱張數。</p>
-          <label class="check danger">
+          <p class="hint" id="saveLocation">未選擇資料夾，使用瀏覽器下載位置。</p>
+          <p class="hint">每張圖下方可直接按「下載這張」，不用先勾選。</p>
+          <p class="hint">卡片上可看原圖尺寸，並各自選擇要下載的大小。Shutterstock 每個尺寸都會扣張數。</p>
+          <button id="chooseFolderBtn" type="button" class="btn secondary">選擇儲存資料夾</button>
+          <label class="check danger hidden" id="confirmLicenseWrap">
             <input id="confirmLicense" type="checkbox" />
             我確認 Shutterstock 下載會扣張數
           </label>
           <button id="downloadBtn" type="button" class="btn primary" disabled>下載選取（0）</button>
-          <button id="copyNasBtn" type="button" class="btn secondary" disabled>複製 NAS 選取</button>
         </section>
+        <details class="panel hidden" id="nasPanel">
+          <summary>NAS 登入與篩選</summary>
+          <p class="hint" id="nasLoginStatus">尚未登入</p>
+          <button id="nasOpenLoginBtn" type="button" class="btn secondary">登入 NAS 搜尋</button>
+          <label class="field"><span>NAS 共用資料夾</span><select id="nasShare"><option value="">全部可存取資料夾</option></select></label>
+          <label class="field"><span>NAS 副檔名（可選）</span><input id="nasExt" type="text" placeholder="jpg,png 或 mp4,mov" /></label>
+          <a id="nasServiceLink" target="_blank" rel="noopener">開啟原 NAS 搜尋服務</a>
+        </details>
       </aside>
 
       <section class="content">
         <div class="toolbar">
           <div id="resultSummary">輸入關鍵字開始搜尋</div>
-          <button id="selectAllBtn" type="button" class="btn ghost" disabled>全選</button>
-          <button id="clearAllBtn" type="button" class="btn ghost" disabled>清除</button>
+          <button id="selectAllBtn" type="button" class="btn ghost" disabled>全選此分頁</button>
+          <button id="clearAllBtn" type="button" class="btn ghost" disabled>清除此分頁</button>
         </div>
         <div id="message" class="message hidden"></div>
-        <div id="results" class="grid"></div>
+        <div id="sourceTabs" class="source-tabs" role="tablist" aria-label="圖庫來源分頁"></div>
+        <div id="results" class="grid" role="tabpanel" aria-label="圖庫搜尋結果"></div>
       </section>
     </main>
 
-    <script src="/app.js" type="module"></script>
+    <dialog id="nasLoginDialog" class="nas-login-dialog" aria-labelledby="nasLoginTitle">
+      <form id="nasLoginForm" action="/api/nas/login" method="post" autocomplete="on">
+        <h2 id="nasLoginTitle">登入 NAS 圖庫</h2>
+        <p class="hint">使用你的 NAS 帳號。瀏覽器若已為本站儲存帳密，可自動填入。</p>
+        <div id="nasLoginFields">
+          <label class="field"><span>NAS 帳號</span><input id="nasUser" name="username" type="text" autocomplete="username" autofocus /></label>
+          <label class="field"><span>NAS 密碼</span><input id="nasPassword" name="password" type="password" autocomplete="current-password" /></label>
+        </div>
+        <p id="nasLoginError" class="hint" role="alert"></p>
+        <p class="hint">共用密碼模式可留空帳號。帳密由你自己的瀏覽器管理。</p>
+        <div class="nas-login-actions">
+          <button id="nasCancelLoginBtn" type="button" class="btn ghost">取消</button>
+          <button id="nasLoginBtn" type="submit" class="btn primary">登入</button>
+        </div>
+      </form>
+    </dialog>
+    <script src="/app.js?v=country-search-1" type="module"></script>
   </body>
 </html>
